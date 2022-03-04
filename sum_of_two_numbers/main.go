@@ -1,8 +1,6 @@
 package main
 
-import (
-	"fmt"
-)
+import "fmt"
 
 /*
 Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
@@ -29,12 +27,46 @@ Output: [3,4]
 
 func main() {
 
-	o := twoSum([]int{11, 7, 14, 3, 5, 2, 15}, 8)
-	fmt.Printf("%+v", o)
+	tcs := []struct {
+		nums     []int
+		target   int
+		expected []int
+	}{
+		{[]int{2, 7, 11, 15}, 9, []int{0, 1}},
+		{[]int{3, 2, 4}, 6, []int{1, 2}},
+		{[]int{3, 3}, 6, []int{0, 1}},
+		{[]int{11, 7, 2, 15}, 9, []int{1, 2}},
+		{[]int{11, 7, 14, 3, 5, 2, 15}, 8, []int{3, 4}},
+	}
+
+	for _, tc := range tcs {
+		o := twoSum(tc.nums, tc.target)
+		if o[0] != tc.expected[0] && o[1] != tc.expected[1] {
+			fmt.Println("Wrong")
+		} else {
+			fmt.Println("Correct")
+		}
+	}
+
 }
 
 func twoSum(nums []int, target int) []int {
 
+	for fi, fnum := range nums {
+		if fnum > target {
+			continue
+		}
+		for i := fi + 1; i < len(nums); i++ {
+			if fnum+nums[i] == target {
+				return []int{fi, i}
+			}
+		}
+	}
+
+	return []int{}
+}
+
+/*
 	for fi, fnum := range nums {
 		new_nums := nums[fi+1:]
 		for si, snum := range new_nums {
@@ -43,9 +75,7 @@ func twoSum(nums []int, target int) []int {
 			}
 		}
 	}
-
-	return []int{}
-}
+*/
 
 /*
 	[11,7,2,15] = 9
